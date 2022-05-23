@@ -10,7 +10,7 @@ XData ProductionDefinition
   </Item>
   <Item Name="Python.ProcessCSV" Category="" ClassName="Python.ProcessCSV" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
-  <Item Name="Python.OperationCSV" Category="" ClassName="Python.OperationCSV" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="Python.FhirClient" Category="" ClassName="Python.FhirClient" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
 </Production>
 }

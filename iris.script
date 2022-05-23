@@ -20,6 +20,6 @@
     zw ##class(Grongier.PEX.Utils).RegisterComponent("bp","ProcessCSV","/irisdev/app/src/python/",1,"Python.ProcessCSV")
     zw ##class(Grongier.PEX.Utils).RegisterComponent("bs","ServiceCSV","/irisdev/app/src/python/",1,"Python.ServiceCSV")
     
-    set ^EnsPortal.Settings("SuperUser","LastProduction")  = "iris.Production"
+    set ^EnsPortal.Settings("SuperUser","LastProduction")  = "ProductionCSV.cls"
 
     h
