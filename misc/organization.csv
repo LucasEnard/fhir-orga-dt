@@ -1,3 +1,3 @@
-active;name;id;city;country;system;value
-true;Name1;1;city1;country1;phone;050678504
-false;Name2;2;city2;country2;phone;123456789
+active;name;city;country;system;value
+true;Name1;city1;country1;phone;050678504
+false;Name2;city2;country2;phone;123456789

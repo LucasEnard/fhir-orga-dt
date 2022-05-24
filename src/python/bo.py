@@ -8,6 +8,7 @@ from fhir.resources import construct_fhir_element
 import json
 
 class FhirClient(BusinessOperation):
+    client: SyncFHIRClient = None
 
     def on_init(self):
         """
@@ -17,11 +18,9 @@ class FhirClient(BusinessOperation):
         :return: None
         """
         if not hasattr(self,'url'):
-            self.url = 'https://fhir.8ty581k3dgzj.static-test-account.isccloud.io'
-        if not hasattr(self,'apikey'):
-            self.apikey = "sVgCTspDTM4iHGn51K5JsaXAwJNmHkSG3ehxindk"
+            self.url = 'localhost:52773/fhir/r4'
 
-        self.client = SyncFHIRClient(url=self.url, extra_headers={"x-api-key":self.apikey})
+        self.client = SyncFHIRClient(url=self.url)
 
         return None
 
