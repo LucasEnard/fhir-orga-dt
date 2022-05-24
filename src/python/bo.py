@@ -18,9 +18,12 @@ class FhirClient(BusinessOperation):
         :return: None
         """
         if not hasattr(self,'url'):
-            self.url = 'localhost:52773/fhir/r4'
+            self.url = 'http://localhost:52773/fhir/r4'
 
-        self.client = SyncFHIRClient(url=self.url)
+        self.client = SyncFHIRClient(url=self.url,extra_headers={"Content-Type":"application/json+fhir"})
+
+        # Using an InterSystems server that need an api key, using the header x-api-key
+        #self.client = SyncFHIRClient(url='https://fhir.8ty581k3dgzj.static-test-account.isccloud.io', extra_headers={"x-api-key":"sVgCTspDTM4iHGn51K5JsaXAwJNmHkSG3ehxindk"})
 
         return None
 
