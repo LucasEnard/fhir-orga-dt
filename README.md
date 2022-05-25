@@ -14,7 +14,7 @@ This is a simple full python IRIS production that gather information from a csv,
   - [5.3. Business Process](#53-business-process)
   - [5.4. Business Operation](#54-business-operation)
   - [5.5. Conclusion of the walkthrough](#55-conclusion-of-the-walkthrough)
-- [6. How to start coding](#6-how-to-start-coding)
+- [6. Creation of a new DataTransformation](#6-creation-of-a-new-datatransformation)
 - [7. What's inside the repo](#7-whats-inside-the-repo)
   - [7.1. Dockerfile](#71-dockerfile)
   - [7.2. .vscode/settings.json](#72-vscodesettingsjson)
@@ -189,9 +189,87 @@ It is to be noted that the fhir client works with any resource from FHIR R4 and 
 If you have followed this walkthrough you now know exactly how to read a csv of a represetation of a FHIR R4 resource, use a DataTransformation to make it into a real FHIR R4 object and save it to a server.
 
 
-# 6. How to start coding
+# 6. Creation of a new DataTransformation
 This repository is ready to code in VSCode with InterSystems plugins.
 Open `/src/python` to start coding or using the autocompletion.
+
+**Steps to create a new transformation**<br>
+To add a new transformation and use it, the only things you need to do is add your csv named `Patient.csv` ( for example ) in the `src/python/csv` folder.<br>
+Then, create an object in `src/python/obj.py` called `BasePatient` that map your csv.<br>
+Now create a request in `src/python/msg.py` called `PatientRequest` that has a variable `resource` typed BasePatient.<br>
+The final step is the DataTransformation, for this, go to `src/python/bp.py` and add your DT. First add `if isinstance(request, PatientRequest):` and then map your request resource to a fhir.resource Patient.<br>
+Now if you go into the management portal and change the setting of the `ServiceCSV` to add `filename=Patient.csv` you can just start the production and see your transformation unfold and you client send the information to the server.
+
+**Detailled steps to create a new transformation**<br>
+If you are unsure of what to do or how to do it here is a step by step creation of a new transformation :
+
+Create the file `Patient.csv` n the `src/python/csv` folder and fill it with:
+```
+family;given;system;value
+FamilyName1;GivenName1;phone;555789675
+FamilyName2;GivenName2;phone;023020202
+```
+Our CSV hold a family name, a given name and a phone number for two patients.
+
+<br><br>
+
+In `src/python/obj.py` write :
+```python
+@dataclass
+class BasePatient:
+    family:str = None
+    given:str = None
+    system:str = None
+    value:str = None
+```
+
+<br><br>
+
+In `src/python/msg.py` write:
+```python
+from obj import BasePatient
+@dataclass
+class PatientRequest(Message):
+    resource:BasePatient = None
+```
+
+<br><br>
+
+In `src/python/bp.py` write:
+```python
+from msg import PatientRequest
+from fhir.resources.patient import Patient
+from fhir.resources.humanname import HumanName
+```
+
+In `src/python/bp.py` in the `on_request` function write:
+```python
+if isinstance(request,PatientRequest):
+    base_patient = request.resource
+
+    patient = Patient()
+
+    name = HumanName()
+    name.family = base_patient.family
+    name.given = [base_patient.given]
+    patient.name = [name]
+
+    telecom = ContactPoint()
+    telecom.value = base_patient.value
+    telecom.system = base_patient.system
+    patient.telecom = [telecom]
+
+    msg = FhirRequest()
+    msg.resource = patient
+
+    self.send_request_sync("Python.FhirClient", msg)
+```
+
+<br><br>
+
+Now if you go into the management portal and change the setting of the `ServiceCSV` to add `filename=Patient.csv` you can just stop and restart the production and see your transformation unfold and you client send the information to the server.
+
+![Settings](https://user-images.githubusercontent.com/77791586/170278879-02eb4303-51af-45ba-93bf-393e9ff5ed94.png)
 
 # 7. What's inside the repo
 
