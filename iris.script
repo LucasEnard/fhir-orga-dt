@@ -1,27 +1,3 @@
-    zn "%SYS"
-    Do ##class(Security.Users).UnExpireUserPasswords("*")
-
-    do ##class(Security.Services).Get("%Service_CallIn",.prop)
-    set prop("Enabled")=1
-    set prop("AutheEnabled")=48
-    do ##class(Security.Services).Modify("%Service_CallIn",.prop)
-
-
-    zn "USER"
-    ; run installer to create namespace
-    do $SYSTEM.OBJ.Load("/irisdev/app/Installer.cls", "ck")
-    set sc = ##class(App.Installer).setup() 
-
-    zn "IRISAPP"
-    zw $SYSTEM.OBJ.ImportDir("/irisdev/app/src", "*.cls", "cubk", .tErrors, 1)
-    zpm "install pex-embbeded-python"
-
-    zw ##class(Grongier.PEX.Utils).RegisterComponent("bo","FhirClient","/irisdev/app/src/python/",1,"Python.FhirClient")
-    zw ##class(Grongier.PEX.Utils).RegisterComponent("bp","ProcessCSV","/irisdev/app/src/python/",1,"Python.ProcessCSV")
-    zw ##class(Grongier.PEX.Utils).RegisterComponent("bs","ServiceCSV","/irisdev/app/src/python/",1,"Python.ServiceCSV")
-    
-    set ^EnsPortal.Settings("SuperUser","LastProduction")  = "ProductionCSV.cls"
-
     zn "HSLIB"
     set namespace="FHIRSERVER"
     Set appKey = "/fhir/r4"
@@ -44,4 +20,29 @@
     set config.DebugMode = 4
     do strategy.SaveServiceConfigData(config)
 
+    zn "%SYS"
+    Do ##class(Security.Users).UnExpireUserPasswords("*")
+
+    do ##class(Security.Services).Get("%Service_CallIn",.prop)
+    set prop("Enabled")=1
+    set prop("AutheEnabled")=48
+    do ##class(Security.Services).Modify("%Service_CallIn",.prop)
+
+
+    zn "USER"
+    ; run installer to create namespace
+    do $SYSTEM.OBJ.Load("/irisdev/app/Installer.cls", "ck")
+    zpm "load /home/irisowner/fhirapp":1
+    set sc = ##class(App.Installer).setup() 
+
+    zn "IRISAPP"
+    zw $SYSTEM.OBJ.ImportDir("/irisdev/app/src", "*.cls", "cubk", .tErrors, 1)
+    zpm "install pex-embbeded-python"
+
+    zw ##class(Grongier.PEX.Utils).RegisterComponent("bo","FhirClient","/irisdev/app/src/python/",1,"Python.FhirClient")
+    zw ##class(Grongier.PEX.Utils).RegisterComponent("bp","ProcessCSV","/irisdev/app/src/python/",1,"Python.ProcessCSV")
+    zw ##class(Grongier.PEX.Utils).RegisterComponent("bs","ServiceCSV","/irisdev/app/src/python/",1,"Python.ServiceCSV")
+    
+    set ^EnsPortal.Settings("SuperUser","LastProduction")  = "ProductionCSV.cls"
+    
     h
