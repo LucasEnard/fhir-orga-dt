@@ -5,12 +5,15 @@ from obj import BaseOrganization
 
 from fhir.resources.resource import Resource
 
+# Here you can add your own classes like PatientRequest, ObservationRequest, etc
+# to prepare a new DataTransformation
+
 @dataclass
 # > The OrgaRequest class is a Message class that has an organization attribute
 # that is a BaseOrganization class ( see the obj.py file and the BaseOrganization
 # class).
-class OrgaRequest(Message):
-    organization:BaseOrganization = None
+class OrganizationRequest(Message):
+    resource:BaseOrganization = None
 
 @dataclass
 # > The FhirRequest class is a Message class that has an resource attribute 

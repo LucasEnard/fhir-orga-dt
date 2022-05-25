@@ -1,6 +1,6 @@
 from grongier.pex import BusinessProcess
 
-from msg import FhirRequest,OrgaRequest
+from msg import FhirRequest,OrganizationRequest
 
 from fhir.resources.organization import Organization
 from fhir.resources.address import Address
@@ -19,7 +19,7 @@ class ProcessCSV(BusinessProcess):
         :param request: The request object that was sent to the service
         :return: None
         """
-        if isinstance(request, OrgaRequest):
+        if isinstance(request, OrganizationRequest):
             # Creates a new Organization and fill it with the information from request
             # This is the DataTransformation step
 

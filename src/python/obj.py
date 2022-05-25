@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-# Here you can add your own classes like Patient, Observation, etc
+# Here you can add your own classes like BasePatient, BaseObservation, etc
 # to prepare a new DataTransformation
 
 @dataclass
