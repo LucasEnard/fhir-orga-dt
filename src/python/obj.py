@@ -12,3 +12,10 @@ class BaseOrganization:
     country:str = None
     system:str = None
     value:str = None
+
+@dataclass
+class BasePatient:
+    family:str = None
+    given:str = None
+    system:str = None
+    value:str = None

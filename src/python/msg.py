@@ -1,7 +1,7 @@
 from grongier.pex import Message
 from dataclasses import dataclass
 
-from obj import BaseOrganization
+from obj import BaseOrganization, BasePatient
 
 from fhir.resources.resource import Resource
 
@@ -14,6 +14,10 @@ from fhir.resources.resource import Resource
 # class).
 class OrganizationRequest(Message):
     resource:BaseOrganization = None
+
+@dataclass
+class PatientRequest(Message):
+    resource:BasePatient = None
 
 @dataclass
 # > The FhirRequest class is a Message class that has an resource attribute 

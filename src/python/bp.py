@@ -1,10 +1,12 @@
 from grongier.pex import BusinessProcess
 
-from msg import FhirRequest,OrganizationRequest
+from msg import FhirRequest,OrganizationRequest,PatientRequest
 
 from fhir.resources.organization import Organization
 from fhir.resources.address import Address
 from fhir.resources.contactpoint import ContactPoint
+from fhir.resources.patient import Patient
+from fhir.resources.humanname import HumanName
 
 
 class ProcessCSV(BusinessProcess):
@@ -58,7 +60,27 @@ class ProcessCSV(BusinessProcess):
             msg.resource = organization
 
             self.send_request_sync("Python.FhirClient", msg)
-        
+
+        if isinstance(request,PatientRequest):
+            base_patient = request.resource
+
+            patient = Patient()
+
+            name = HumanName()
+            name.family = base_patient.family
+            name.given = [base_patient.given]
+            patient.name = [name]
+
+            telecom = ContactPoint()
+            telecom.value = base_patient.value
+            telecom.system = base_patient.system
+            patient.telecom = [telecom]
+
+            msg = FhirRequest()
+            msg.resource = patient
+
+            self.send_request_sync("Python.FhirClient", msg)
+
         if isinstance(request,FhirRequest):
             self.send_request_sync("Python.FhirClient", request)       
 
