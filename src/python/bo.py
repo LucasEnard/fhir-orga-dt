@@ -12,7 +12,7 @@ class FhirClient(BusinessOperation):
 
     def on_init(self):
         """
-        It changes the current url and api-key if needed using the params of the
+        It changes the current url if needed using the params of the
         management portal
 
         :return: None
@@ -46,6 +46,7 @@ class FhirClient(BusinessOperation):
 
         # Save the resource to the FHIR server using the client
         self.client.resource(resource_type,**json.loads(resource.json())).save()
+
         return None
 
     def on_message(self, request):
