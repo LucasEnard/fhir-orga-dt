@@ -23,7 +23,8 @@ class ServiceCSV(BusinessService):
         :return: None
         """
         if not hasattr(self,'path'):
-            self.path = '/home/irisowner/fhirapp/src/python/csv/'
+            #self.path = '/home/irisowner/fhirapp/src/python/csv/'
+            self.path = "/irisdev/app/src/python/csv/"
         if not hasattr(self,'filename'):
             # Note that the filename is really important as everything else depends on it.
             # It must be the name of a Fhir resource having it's first letter capitalized.
@@ -58,7 +59,7 @@ class ServiceCSV(BusinessService):
             for row in reader:
                 requ = msg_to_send()
                 requ.resource = row
-                self.send_request_sync('Python.ProcessCSV',msg)
+                self.send_request_sync('Python.ProcessCSV',requ)
 
         # Once the file is read, it is moved to the used folder
         os.rename(self.path + self.filename, self.path + "used/" + self.filename)

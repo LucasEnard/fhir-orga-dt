@@ -127,15 +127,15 @@ Here are the steps to do a DataTransformation using embedded python on our simpl
 organization = Organization()
 
 # Mapping of the information from the request to the Organization object
-organization.name = request.organization.name
+organization.name = base_orga.name
 
-organization.active = request.organization.active
+organization.active = base_orga.active
 
 ## Creation of the Address object and mapping of the information 
 ## from the request to the Address object
 adress = Address()
-adress.country = request.organization.country
-adress.city = request.organization.city
+adress.country = base_orga.country
+adress.city = base_orga.city
 
 ### Setting the adress of our organization to the one we created
 organization.address = [adress]
@@ -143,8 +143,8 @@ organization.address = [adress]
 ## Creation of the ContactPoint object and mapping of the
 ## information from the request to the ContactPoint object
 telecom = ContactPoint()
-telecom.value = request.organization.value
-telecom.system = request.organization.system
+telecom.value = base_orga.value
+telecom.system = base_orga.system
 
 ### Setting the telecom of our organization to the one we created
 organization.telecom = [telecom]
