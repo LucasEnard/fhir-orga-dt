@@ -276,7 +276,7 @@ Now if you go into the management portal and change the setting of the `ServiceC
 ## 7.1. Dockerfile
 
 The simplest dockerfile to start a Python container.<br>
-Use `docker build .` to build and reopen your file in the container to work inside of it.
+Use `docker-compose up` to build and reopen your file in the container to work inside of it.
 
 ## 7.2. .vscode/settings.json
 
